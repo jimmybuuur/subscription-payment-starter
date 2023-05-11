@@ -107,11 +107,9 @@ function Chat() {
 export { Chat };  
   
 export default function MyApp({ Component, pageProps }: AppProps) {  
-  return (  
-    <useSessionContext session={pageProps.session}>  
-      <MyUserContextProvider>  
-        <Component {...pageProps} />  
-      </MyUserContextProvider>  
-    </useSessionContext>  
+  return (   
+    <MyUserContextProvider>  
+    <Component {...pageProps} />  
+    </MyUserContextProvider>  
   );  
 }  
