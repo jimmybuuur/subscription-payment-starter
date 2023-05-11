@@ -13,7 +13,13 @@ export const supabase = createBrowserSupabaseClient<Database>();
 
 export default function Home() {
   const router = useRouter();  
-  const { user, isLoading, userDetails } = useUser();  
+  const { user, isLoading } = useUser();  
+  
+  useEffect(() => {  
+    if (!user && !isLoading) {  
+      router.push('/signin');  
+    }  
+  }, [user, isLoading]);  
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -29,20 +35,6 @@ export default function Home() {
 
     setMessages(updatedMessages);
     setLoading(true);
-
-    // send the message to the backend
-    if (!message.message.trim()) {
-      return;
-    }
-
-    const { data: message, error } = await supabase.from("message").insert({
-      message: message.message, user_id: user?.id
-    });
-
-    if (error) {
-      console.log(error);
-      return;
-    }
 
     // the following code is commented out because it requires a backend
 

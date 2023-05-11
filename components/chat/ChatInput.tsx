@@ -2,6 +2,10 @@ import { Message } from "@/types";
 import { IconArrowUp } from "@tabler/icons-react";
 import { FC, KeyboardEvent, useEffect, useRef, useState } from "react";
 
+import { useUser } from '@/utils/useUser';  
+
+const { user } = useUser();  
+
 interface Props {
   onSend: (message: Message) => void;
 }
@@ -26,9 +30,10 @@ export const ChatInput: FC<Props> = ({ onSend }) => {
       alert("Please enter a message");
       return;
     }
-    onSend({ role: "user", content });
+    onSend({ role: "user", message: content, user_id: user?.id ?? '' });
     setContent("");
   };
+
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {

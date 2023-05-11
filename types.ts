@@ -72,7 +72,7 @@ export interface Subscription {
 // add Messages type
 // schema is id (int8), created_at (timestamp), message (text), user_id (uuid), role (text)
 export interface Message {
-  id: number;
+  id: number /* primary key */;
   created_at: string;
   message: string;
   user_id: string;
