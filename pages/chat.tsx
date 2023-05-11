@@ -1,4 +1,4 @@
-import { Chat } from "@/components/Chat/Chat";
+import { Chat } from "@/components/chat/Chat";
 import  Footer from "@/components/ui/Footer";
 import  Navbar  from "@/components/ui/Navbar";
 import { Message } from "@/types";
