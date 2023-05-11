@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useSessionContext } from '@supabase/auth-helpers-react';
 import { MyUserContextProvider, useUser } from '@/utils/useUser';  
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
+import type { Database } from 'types_db';
 
 export const supabase = createBrowserSupabaseClient<Database>();
   
