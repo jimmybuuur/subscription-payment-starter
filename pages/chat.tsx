@@ -95,13 +95,13 @@ function Chat() {
   );  
 }  
   
-export const getServerSideProps = async ({ req }: { req: NextApiRequest }) => { 
-    return {  
-        props: {  
-            session: await useSessionContext(req.headers),  
-        },  
-    };  
-};  
+// export const getServerSideProps = async ({ req }: { req: NextApiRequest }) => { 
+//     return {  
+//         props: {  
+//             session: await useSessionContext(req.headers),  
+//         },  
+//     };  
+// };  
   
 export { Chat };  
   
