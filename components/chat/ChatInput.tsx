@@ -2,8 +2,12 @@ import { Message } from "@/types";
 import { IconArrowUp } from "@tabler/icons-react";
 import { FC, KeyboardEvent, useEffect, useRef, useState } from "react";
 
+import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';  
+import type { Database } from 'types_db';  
+
 import { useUser } from '@/utils/useUser'; 
 
+export const supabase = createBrowserSupabaseClient<Database>();  
 const { user } = useUser();  
 
 interface Props {
@@ -25,11 +29,18 @@ export const ChatInput: FC<Props> = ({ onSend }) => {
     setContent(value);
   };
 
-  const handleSend = () => {
+  const handleSend = async () => { // is async allowed here?
     if (!content) {
       alert("Please enter a message");
       return;
     }
+    // send data to backend
+    const { data: messages, error } = await supabase.from('messages').insert([{ message: content, user_id: user?.id ?? '', role: "user" }]);
+    if (error) {
+      console.log(error);
+      return;
+    }
+
     onSend({ role: "user", message: content, user_id: user?.id ?? '' });
     setContent("");
   };

@@ -1,3 +1,4 @@
+import { useUser } from '@/utils/useUser';  
 import { Chat } from "@/components/chat/Chat";
 import  Footer from "@/components/ui/Footer";
 import  Navbar  from "@/components/ui/Navbar";
@@ -7,7 +8,6 @@ import { useEffect, useRef, useState } from "react";
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';  
 import type { Database } from 'types_db';
 import { useRouter } from 'next/router';  
-import { useUser } from '@/utils/useUser';  
 
 export const supabase = createBrowserSupabaseClient<Database>(); 
 
