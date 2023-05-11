@@ -1,6 +1,7 @@
-import { useUser } from '@/utils/useUser';  
-import { useRouter } from 'next/router';  
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from 'next/router';  
+import { useUser } from '@/utils/useUser';  
+
 import { Chat } from "@/components/chat/Chat";
 import  Footer from "@/components/ui/Footer";
 import  Navbar  from "@/components/ui/Navbar";
