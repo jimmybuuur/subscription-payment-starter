@@ -6,7 +6,7 @@ module.exports = {
   content: [
     'app/**/*.{ts,tsx}',
     'components/**/*.{ts,tsx}',
-    'pages/**/*.{ts,tsx}',
+    // 'pages/**/*.{ts,tsx}',
     'pages/**/!(*chat_v2).{ts,tsx}', // exclude my-page.tsx  
   ],
   theme: {
