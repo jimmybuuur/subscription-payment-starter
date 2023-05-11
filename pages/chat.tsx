@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';  
 import { useRouter } from 'next/router';  
-import { MySessionContextProvider } from '@/utils/useUser';
+// import { MySessionContextProvider } from '@/utils/useUser';
 // instead of MySessionContextProvider use useSessionContext
 import { useSessionContext } from '@supabase/auth-helpers-react';
 import { MyUserContextProvider, useUser } from '@/utils/useUser';  
@@ -89,11 +89,11 @@ export const getServerSideProps = async ({ req }) => {
   
 const MyApp = ({ Component, pageProps }) => {  
   return (  
-    <MySessionContextProvider session={pageProps.session}>  
+    <useSessionContext session={pageProps.session}>  
       <MyUserContextProvider>  
         <Component {...pageProps} />  
       </MyUserContextProvider>  
-    </MySessionContextProvider>  
+    </useSessionContext>  
   );  
 };  
   
