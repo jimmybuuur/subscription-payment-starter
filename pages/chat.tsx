@@ -67,12 +67,12 @@ function Chat() {
     if (error) {  
       console.log('Error creating message:', error.message);  
     } else {  
-      if (message) {
+      if (newMessage) {
         const formattedMessage = {  
-          id: message.id,  
-          message: message.message,  
-          user_id: message.user_id,  
-          created_at: message.created_at,  
+          id: newMessage.id,  
+          message: newMessage.message,  
+          user_id: newMessage.user_id,  
+          created_at: newMessage.created_at,  
         };  
         setMessages([formattedMessage, ...messages]);  
         setNewMessage('');  
@@ -81,7 +81,7 @@ function Chat() {
   };  
   
   // log message.user_id and userDetails?.id to console
-    console.log('message.user_id: ', message.user_id);
+    console.log('message.user_id: ', newMessage.user_id);
     console.log('userDetails?.id: ', userDetails?.id);
 
   return (  
