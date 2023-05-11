@@ -10,7 +10,7 @@ export const supabase = createBrowserSupabaseClient<Database>();
 function Chat() {  
   const router = useRouter();  
   const { user, isLoading } = useUser();  
-  const [messages, setMessages] = useState([]);  
+  const [messages, setMessages] = useState<{ id: number; message: string; user_id: string; created_at: string }[]>([]);
   const [newMessage, setNewMessage] = useState('');  
   
   useEffect(() => {  
