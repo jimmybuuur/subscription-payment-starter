@@ -81,9 +81,6 @@ function Chat() {
     }  
   }; 
   
-  // log message.user_id and userDetails?.id to console
-    console.log('message.user_id: ', newMessage.user_id);
-    console.log('userDetails?.id: ', userDetails?.id);
 
   return (  
     <div style={{width: '100%', height: '100vh', backgroundColor: '#fff'}}>  
