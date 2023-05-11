@@ -5,6 +5,7 @@ import { MyUserContextProvider, useUser } from '@/utils/useUser';
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';  
 import type { Database } from 'types_db';  
 import React from 'react';  
+import { NextApiRequest } from 'next';  
 
   
 export const supabase = createBrowserSupabaseClient<Database>();  
@@ -94,7 +95,7 @@ function Chat() {
   );  
 }  
   
-export const getServerSideProps = async ({ req }) => {  
+export const getServerSideProps = async ({ req }: { req: NextApiRequest }) => { 
     return {  
         props: {  
             session: await useSessionContext(req.headers),  
