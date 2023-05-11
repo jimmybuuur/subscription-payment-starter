@@ -51,29 +51,7 @@ function Chat() {
         }));  
         setMessages(formattedMessages);    
     }  
-  };  
-  
-//   const handleSubmit =  async (event: React.FormEvent<HTMLFormElement>) => {  
-//     event.preventDefault();  
-//     //log user.id to console
-//     console.log('user.id: ', userDetails?.id);
-//     if (!newMessage.trim()) {  
-//       return;  
-//     }  
-  
-//     const { data: message, error } = await supabase.from('messages').insert([    
-//         { message: newMessage, user_id: user?.id }    
-//       ]);         
-  
-//     if (error) {  
-//       console.log('Error creating message:', error.message);  
-//     } else {  
-//         if (message) {  
-//             setMessages([message, ...messages]);  
-//             setNewMessage('');  
-//         }  
-//     }  
-//   };  
+  };   
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {  
     event.preventDefault();  
@@ -89,12 +67,12 @@ function Chat() {
     if (error) {  
       console.log('Error creating message:', error.message);  
     } else {  
-      if (message) {  
+      if (message) {
         const formattedMessage = {  
-          id: message[0].id,  
-          message: message[0].message,  
-          user_id: message[0].user_id,  
-          created_at: message[0].created_at,  
+          id: message.id,  
+          message: message.message,  
+          user_id: message.user_id,  
+          created_at: message.created_at,  
         };  
         setMessages([formattedMessage, ...messages]);  
         setNewMessage('');  
