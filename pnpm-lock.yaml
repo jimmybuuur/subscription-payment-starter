@@ -29,7 +29,6 @@ dependencies:
   '@supabase/auth-ui-react': 0.3.3_ku2vntnma2imfrsyohnkxzette
   '@supabase/auth-ui-shared': 0.1.2_ku2vntnma2imfrsyohnkxzette
   '@supabase/supabase-js': 2.10.0
-  '@tabler/icons-react': 2.9.0
   classnames: 2.3.2
   next: 13.2.3_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
