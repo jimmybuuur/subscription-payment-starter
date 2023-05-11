@@ -5,7 +5,8 @@ import { MyUserContextProvider, useUser } from '@/utils/useUser';
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';  
 import type { Database } from 'types_db';  
 import React from 'react';  
-import { NextApiRequest } from 'next';  
+// import { NextApiRequest } from 'next';  
+import type { AppProps } from 'next/app';
 
   
 export const supabase = createBrowserSupabaseClient<Database>();  
@@ -105,7 +106,7 @@ function Chat() {
   
 export { Chat };  
   
-export default function MyApp({ Component, pageProps }) {  
+export default function MyApp({ Component, pageProps }: AppProps) {  
   return (  
     <useSessionContext session={pageProps.session}>  
       <MyUserContextProvider>  
