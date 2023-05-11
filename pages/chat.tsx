@@ -1,13 +1,15 @@
 import { useUser } from '@/utils/useUser';  
+import { useRouter } from 'next/router';  
+import { useEffect, useRef, useState } from "react";
 import { Chat } from "@/components/chat/Chat";
 import  Footer from "@/components/ui/Footer";
 import  Navbar  from "@/components/ui/Navbar";
 import { Message } from "@/types";
 import Head from "next/head";
-import { useEffect, useRef, useState } from "react";
+
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';  
 import type { Database } from 'types_db';
-import { useRouter } from 'next/router';  
+
 
 export const supabase = createBrowserSupabaseClient<Database>(); 
 
