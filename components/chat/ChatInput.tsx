@@ -2,7 +2,7 @@ import { Message } from "@/types";
 import { IconArrowUp } from "@tabler/icons-react";
 import { FC, KeyboardEvent, useEffect, useRef, useState } from "react";
 
-import { useUser } from '@/utils/useUser';  
+import { useUser } from '@/utils/useUser'; 
 
 const { user } = useUser();  
 

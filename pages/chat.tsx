@@ -89,11 +89,9 @@ export default function Home() {
         setMessages((messages) => [
           ...messages,
           {
-            id: message.id,
             role: "assistant",
             message: chunkValue,
-            user_id: message.user_id,
-            created_at: message.created_at
+            user_id: "-1"
           }
         ]);
       } else {
@@ -114,6 +112,7 @@ export default function Home() {
       {
         role: "assistant",
         message: `Hi there! I'm Chatbot UI, an AI assistant. I can help you with things like answering questions, providing information, and helping with tasks. How can I help you?`,
+        user_id: "-1"
       }
     ]);
   };
@@ -126,7 +125,8 @@ export default function Home() {
     setMessages([
       {
         role: "assistant",
-        message: `Hi there! I'm Chatbot UI, an AI assistant. I can help you with things like answering questions, providing information, and helping with tasks. How can I help you?`
+        message: `Hi there! I'm Chatbot UI, an AI assistant. I can help you with things like answering questions, providing information, and helping with tasks. How can I help you?`,
+        user_id: "-1"
       }
     ]);
   }, []);
