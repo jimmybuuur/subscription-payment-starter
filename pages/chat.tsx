@@ -4,6 +4,8 @@ import { useSessionContext } from '@supabase/auth-helpers-react';
 import { MyUserContextProvider, useUser } from '@/utils/useUser';  
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';  
 import type { Database } from 'types_db';  
+import React from 'react';  
+
   
 export const supabase = createBrowserSupabaseClient<Database>();  
   
@@ -49,7 +51,7 @@ function Chat() {
     }  
   };  
   
-  const handleSubmit = async (event) => {  
+  const handleSubmit =  async (event: React.FormEvent<HTMLFormElement>) => {  
     event.preventDefault();  
   
     if (!newMessage.trim()) {  
