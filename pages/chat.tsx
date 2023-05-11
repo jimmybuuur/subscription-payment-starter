@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react';  
 import { useRouter } from 'next/router';  
-// import { MySessionContextProvider } from '@/utils/useUser';
-// instead of MySessionContextProvider use useSessionContext
-import { useSessionContext } from '@supabase/auth-helpers-react';
+import { useSessionContext } from '@supabase/auth-helpers-react';  
 import { MyUserContextProvider, useUser } from '@/utils/useUser';  
-import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
-import type { Database } from 'types_db';
-
-export const supabase = createBrowserSupabaseClient<Database>();
+import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';  
+import type { Database } from 'types_db';  
   
-export default function Chat() {  
+export const supabase = createBrowserSupabaseClient<Database>();  
+  
+function Chat() {  
   const router = useRouter();  
   const { user, isLoading } = useUser();  
   const [messages, setMessages] = useState([]);  
@@ -25,7 +23,6 @@ export default function Chat() {
     fetchMessages();  
   }, []);  
   
-
   const fetchMessages = async () => {  
     const { data: messages, error } = await supabase  
       .from('messages')  
@@ -79,16 +76,18 @@ export default function Chat() {
     </div>  
   );  
 }  
-
-export const getServerSideProps = async ({ req }) => {
-    return {
-        props: {
-            session: await useSessionContext(req.headers),
-        },
-    };
-};
   
-const MyApp = ({ Component, pageProps }) => {  
+export const getServerSideProps = async ({ req }) => {  
+    return {  
+        props: {  
+            session: await useSessionContext(req.headers),  
+        },  
+    };  
+};  
+  
+export { Chat };  
+  
+export default function MyApp({ Component, pageProps }) {  
   return (  
     <useSessionContext session={pageProps.session}>  
       <MyUserContextProvider>  
@@ -96,6 +95,4 @@ const MyApp = ({ Component, pageProps }) => {
       </MyUserContextProvider>  
     </useSessionContext>  
   );  
-};  
-  
-export default MyApp;  
+}  
