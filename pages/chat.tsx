@@ -96,20 +96,12 @@ function Chat() {
   );  
 }  
   
-// export const getServerSideProps = async ({ req }: { req: NextApiRequest }) => { 
-//     return {  
-//         props: {  
-//             session: await useSessionContext(req.headers),  
-//         },  
-//     };  
-// };  
+export default Chat;
   
-export { Chat };  
-  
-export default function MyApp({ Component, pageProps }: AppProps) {  
-  return (   
-    <MyUserContextProvider>  
-    <Component {...pageProps} />  
-    </MyUserContextProvider>  
-  );  
-}  
+// export default function MyApp({ Component, pageProps }: AppProps) {  
+//   return (   
+//     <MyUserContextProvider>  
+//     <Component {...pageProps} />  
+//     </MyUserContextProvider>  
+//   );  
+// }  
