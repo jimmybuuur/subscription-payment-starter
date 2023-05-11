@@ -1,111 +1,175 @@
-import { useEffect, useState } from 'react';  
-import { useRouter } from 'next/router';  
-import { useSessionContext } from '@supabase/auth-helpers-react';  
-import { MyUserContextProvider, useUser } from '@/utils/useUser';  
+import { Chat } from "@/components/Chat/Chat";
+import  Footer from "@/components/ui/Footer";
+import  Navbar  from "@/components/ui/Navbar";
+import { Message } from "@/types";
+import Head from "next/head";
+import { useEffect, useRef, useState } from "react";
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';  
-import type { Database } from 'types_db';  
-import React from 'react';  
-// import { NextApiRequest } from 'next';  
-import type { AppProps } from 'next/app';
+import type { Database } from 'types_db';
+import { useRouter } from 'next/router';  
+import { useUser } from '@/utils/useUser';  
 
-  
-export const supabase = createBrowserSupabaseClient<Database>();  
-  
-interface Message {  
-    id: number;  
-    message: string;  
-    user_id: string;  
-    created_at: string;  
-  }  
+export const supabase = createBrowserSupabaseClient<Database>(); 
 
-function Chat() {  
+export default function Home() {
   const router = useRouter();  
   const { user, isLoading, userDetails } = useUser();  
-  const [messages, setMessages] = useState<Message[]>([]);  
-  const [newMessage, setNewMessage] = useState('');  
-  
-  useEffect(() => {  
-    if (!user && !isLoading) {  
-      router.push('/signin');  
-    }  
-  }, [user, isLoading]);  
-  
-  useEffect(() => {  
-    fetchMessages();  
-  }, []);  
-  
-  const fetchMessages = async () => {  
-    const { data: messages, error } = await supabase  
-      .from('messages')  
-      .select('*')  
-      .order('created_at', { ascending: false });  
-  
-    if (error) {  
-      console.log('Error fetching messages:', error.message);  
-    } else {  
-    const formattedMessages = messages.map((message) => ({  
-        id: message.id,  
-        message: message.message,  
-        user_id: message.user_id,  
-        created_at: message.created_at,  
-        }));  
-        setMessages(formattedMessages);    
-    }  
-  };   
 
-  const handleSubmit =  async (event: React.FormEvent<HTMLFormElement>) => {  
-    event.preventDefault();  
-    //log user.id to console
-    console.log('user.id: ', userDetails?.id);
-    if (!newMessage.trim()) {  
-      return;  
-    }  
-  
-    const { data: message, error } = await supabase.from('messages').insert([    
-        { message: newMessage, user_id: user?.id }    
-      ]);         
-  
-    if (error) {  
-      console.log('Error creating message:', error.message);  
-    } else {  
-        if (message) {  
-            const formattedMessages = messages.map((message) => ({  
-                id: message.id,  
-                message: message.message,  
-                user_id: message.user_id,  
-                created_at: message.created_at,  
-                })); 
-            setMessages([message[0], ...formattedMessages]);
-            setNewMessage('');
-        }  
-    }  
-  }; 
-  
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  return (  
-    <div style={{width: '100%', height: '100vh', backgroundColor: '#fff'}}>  
-    <div style={{maxWidth: '600px', margin: '0 auto', height: '100%', display: 'flex', flexDirection: 'column'}}>  
-        <div style={{background: '#f1f0f0', padding: '10px', borderBottom: '1px solid #ccc'}}>  
-        <h2 style={{margin: '0'}}>Chat</h2>  
-        </div>  
-        <div style={{flex: '1', overflowY: 'scroll'}}>  
-        {messages.map((message, index) => (  
-            <div key={index} style={{display: 'flex', justifyContent: message.user_id === userDetails?.id ? 'flex-end' : 'flex-start', margin: '10px'}}>  
-            <div style={{background: message.user_id === userDetails?.id ? '#DCF8C6' : '#fff', color: message.user_id === userDetails?.id ? '#000' : '#333', padding: '10px', borderRadius: '10px', maxWidth: '70%'}}>  
-                <p style={{margin: 0}}>{message.user_id}: {message.message}</p>  
-            </div>  
-            </div>  
-        ))}  
-        </div>  
-        <form onSubmit={handleSubmit} style={{display: 'flex', alignItems: 'center', margin: '10px'}}>  
-        <input type="text" value={newMessage} onChange={(event) => setNewMessage(event.target.value)} style={{flex: '1', padding: '10px', color: '#000'}} />  
-        <button type="submit" style={{background: '#4CAF50', color: '#fff', padding: '10px', border: 'none', borderRadius: '0 10px 10px 0'}}>Send</button>  
-        </form>  
-    </div>  
-    </div>  
-        
-        
-  );  
-}  
-  
-export default Chat;
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleSend = async (message: Message) => {
+    const updatedMessages = [...messages, message];
+
+    setMessages(updatedMessages);
+    setLoading(true);
+
+    // send the message to the backend
+    if (!message.message.trim()) {
+      return;
+    }
+
+    const { data: message, error } = await supabase.from("message").insert({
+      message: message.message, user_id: user?.id
+    });
+
+    if (error) {
+      console.log(error);
+      return;
+    }
+
+    // the following code is commented out because it requires a backend
+
+    // const response = await fetch("/api/chat", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   },
+    //   body: JSON.stringify({
+    //     messages: updatedMessages
+    //   })
+    // });
+
+    // if (!response.ok) {
+    //   setLoading(false);
+    //   throw new Error(response.statusText);
+    // }
+
+    // const data = response.body;
+
+    // if (!data) {
+    //   return;
+    // }
+
+    // we instead use a dummy response, make data a ReadableStream, and use a TextDecoder to decode the stream
+    const data = new ReadableStream({
+      start(controller) {
+        controller.enqueue(
+          new TextEncoder().encode(
+            `I'm a dummy response, you can replace me with a real response from your backend.`
+          )
+        );
+        controller.close();
+      }
+    });
+
+
+    setLoading(false);
+
+    const reader = data.getReader();
+    const decoder = new TextDecoder();
+    let done = false;
+    let isFirst = true;
+
+    while (!done) {
+      const { value, done: doneReading } = await reader.read();
+      done = doneReading;
+      const chunkValue = decoder.decode(value);
+
+      if (isFirst) {
+        isFirst = false;
+        setMessages((messages) => [
+          ...messages,
+          {
+            role: "assistant",
+            content: chunkValue
+          }
+        ]);
+      } else {
+        setMessages((messages) => {
+          const lastMessage = messages[messages.length - 1];
+          const updatedMessage = {
+            ...lastMessage,
+            content: lastMessage.content + chunkValue
+          };
+          return [...messages.slice(0, -1), updatedMessage];
+        });
+      }
+    }
+  };
+
+  const handleReset = () => {
+    setMessages([
+      {
+        role: "assistant",
+        content: `Hi there! I'm Chatbot UI, an AI assistant. I can help you with things like answering questions, providing information, and helping with tasks. How can I help you?`
+      }
+    ]);
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  useEffect(() => {
+    setMessages([
+      {
+        role: "assistant",
+        content: `Hi there! I'm Chatbot UI, an AI assistant. I can help you with things like answering questions, providing information, and helping with tasks. How can I help you?`
+      }
+    ]);
+  }, []);
+
+  return (
+    <>
+      <Head>
+        <title>Chatbot UI</title>
+        <meta
+          name="description"
+          content="A simple chatbot starter kit for OpenAI's chat model using Next.js, TypeScript, and Tailwind CSS."
+        />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        />
+        <link
+          rel="icon"
+          href="/favicon.ico"
+        />
+      </Head>
+
+      <div className="flex flex-col h-screen">
+        <Navbar />
+
+        <div className="flex-1 overflow-auto sm:px-10 pb-4 sm:pb-10">
+          <div className="max-w-[800px] mx-auto mt-4 sm:mt-12">
+            <Chat
+              messages={messages}
+              loading={loading}
+              onSend={handleSend}
+              onReset={handleReset}
+            />
+            <div ref={messagesEndRef} />
+          </div>
+        </div>
+        <Footer />
+      </div>
+    </>
+  );
+}

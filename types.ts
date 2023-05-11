@@ -68,3 +68,13 @@ export interface Subscription {
   trial_end?: string;
   prices?: Price;
 }
+
+// add Messages type
+// schema is id (int8), created_at (timestamp), message (text), user_id (uuid), role (text)
+export interface Message {
+  id: number;
+  created_at: string;
+  message: string;
+  user_id: string;
+  role: string;
+}
