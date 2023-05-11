@@ -30,6 +30,10 @@ const Navbar = () => {
               <Link href="/account" className={s.link}>
                 Account
               </Link>
+              {/* add a link to chat */}
+              <Link href="/chat" className={s.link}>
+                Chat
+              </Link>
             </nav>
           </div>
 
