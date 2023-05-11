@@ -65,8 +65,10 @@ function Chat() {
     if (error) {  
       console.log('Error creating message:', error.message);  
     } else {  
-      setMessages([message, ...messages]);  
-      setNewMessage('');  
+        if (message) {  
+            setMessages([message, ...messages]);  
+            setNewMessage('');  
+        }  
     }  
   };  
   
