@@ -75,33 +75,44 @@ function Chat() {
   };  
   
   return (  
-    <div>  
-      <h1>Chat</h1>  
-      <form onSubmit={handleSubmit}>  
-        <input  
-          type="text"  
-          value={newMessage}  
-          onChange={(event) => setNewMessage(event.target.value)}  
-        />  
-        <button type="submit">Send</button>  
-      </form>  
-      <ul>  
-        {messages.map((message) => (  
-          <li key={message.id}>  
-            {message.user_id}: {message.message}  
-          </li>  
-        ))}  
-      </ul>  
+    // <div>  
+    //   <h1>Chat</h1>  
+    //   <form onSubmit={handleSubmit}>  
+    //     <input  
+    //       type="text"  
+    //       value={newMessage}  
+    //       onChange={(event) => setNewMessage(event.target.value)}  
+    //     />  
+    //     <button type="submit">Send</button>  
+    //   </form>  
+    //   <ul>  
+    //     {messages.map((message) => (  
+    //       <li key={message.id}>  
+    //         {message.user_id}: {message.message}  
+    //       </li>  
+    //     ))}  
+    //   </ul>  
+    // </div>
+    
+    <div style={{maxWidth: '400px', margin: 'auto'}}>  
+    <div style={{background: '#f1f0f0', padding: '10px', borderBottom: '1px solid #ccc'}}>  
+        <h2 style={{margin: '0'}}>Chat</h2>  
     </div>  
+    <div style={{height: '400px', overflowY: 'scroll'}}>  
+        {messages.map((message, index) => (  
+        <div key={index} style={{display: 'flex', justifyContent: message.user_id === 'Me' ? 'flex-end' : 'flex-start', margin: '10px'}}>  
+            <div style={{background: message.user_id === 'Me' ? '#DCF8C6' : '#fff', padding: '10px', borderRadius: '10px', maxWidth: '70%'}}>  
+            {message.message}  
+            </div>  
+        </div>  
+        ))}  
+    </div>  
+    <form onSubmit={handleSubmit} style={{display: 'flex', marginTop: '10px'}}>  
+        <input type="text" value={newMessage} onChange={(event) => setNewMessage(event.target.value)} style={{flex: '1', padding: '10px'}} />  
+        <button type="submit" style={{background: '#4CAF50', color: '#fff', padding: '10px', border: 'none', borderRadius: '0 10px 10px 0'}}>Send</button>  
+    </form>  
+    </div> 
   );  
 }  
   
 export default Chat;
-  
-// export default function MyApp({ Component, pageProps }: AppProps) {  
-//   return (   
-//     <MyUserContextProvider>  
-//     <Component {...pageProps} />  
-//     </MyUserContextProvider>  
-//   );  
-// }  
