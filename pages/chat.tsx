@@ -20,7 +20,7 @@ interface Message {
 
 function Chat() {  
   const router = useRouter();  
-  const { user, isLoading } = useUser();  
+  const { user, isLoading, userDetails } = useUser();  
   const [messages, setMessages] = useState<Message[]>([]);  
   const [newMessage, setNewMessage] = useState('');  
   
@@ -121,8 +121,8 @@ function Chat() {
         </div>  
         <div style={{flex: '1', overflowY: 'scroll'}}>  
         {messages.map((message, index) => (  
-            <div key={index} style={{display: 'flex', justifyContent: message.user_id === 'Me' ? 'flex-end' : 'flex-start', margin: '10px'}}>  
-            <div style={{background: message.user_id === 'Me' ? '#DCF8C6' : '#fff', color: message.user_id === 'Me' ? '#000' : '#333', padding: '10px', borderRadius: '10px', maxWidth: '70%'}}>  
+            <div key={index} style={{display: 'flex', justifyContent: message.user_id === userDetails.id ? 'flex-end' : 'flex-start', margin: '10px'}}>  
+            <div style={{background: message.user_id === userDetails.id ? '#DCF8C6' : '#fff', color: message.user_id === userDetails.id ? '#000' : '#333', padding: '10px', borderRadius: '10px', maxWidth: '70%'}}>  
                 <p style={{margin: 0}}>{message.user_id}: {message.message}</p>  
             </div>  
             </div>  
