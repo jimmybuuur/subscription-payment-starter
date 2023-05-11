@@ -7,10 +7,17 @@ import type { Database } from 'types_db';
   
 export const supabase = createBrowserSupabaseClient<Database>();  
   
+interface Message {  
+    id: number;  
+    message: string;  
+    user_id: string;  
+    created_at: string;  
+  }  
+
 function Chat() {  
   const router = useRouter();  
   const { user, isLoading } = useUser();  
-  const [messages, setMessages] = useState<{ id: number; message: string; user_id: string; created_at: string }[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);  
   const [newMessage, setNewMessage] = useState('');  
   
   useEffect(() => {  
@@ -32,7 +39,13 @@ function Chat() {
     if (error) {  
       console.log('Error fetching messages:', error.message);  
     } else {  
-      setMessages(messages);  
+    const formattedMessages = messages.map((message) => ({  
+        id: message.id,  
+        message: message.message,  
+        user_id: message.user_id,  
+        created_at: message.created_at,  
+        }));  
+        setMessages(formattedMessages);    
     }  
   };  
   
