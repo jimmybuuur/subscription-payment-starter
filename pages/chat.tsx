@@ -58,9 +58,9 @@ function Chat() {
       return;  
     }  
   
-    const { data: message, error } = await supabase.from('messages').insert([  
-      { message: newMessage, user_id: user.id }  
-    ]);  
+    const { data: message, error } = await supabase.from('messages').insert([    
+        { message: newMessage, user_id: user?.id }    
+      ]);         
   
     if (error) {  
       console.log('Error creating message:', error.message);  
