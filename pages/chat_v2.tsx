@@ -74,7 +74,7 @@ function Chat() {
                 created_at: message.created_at,  
                 })); 
             setMessage([message[0], ...formattedMessages]);
-            setNewMessage(message[0].message);
+            setNewMessage(message[0]);
         }  
     }  
   }; 
