@@ -11,6 +11,9 @@ import Head from "next/head";
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';  
 import type { Database } from 'types_db';
 
+// import for ReadableStream
+import { ReadableStream } from "web-streams-polyfill/ponyfill";
+
 
 export const supabase = createBrowserSupabaseClient<Database>(); 
 
