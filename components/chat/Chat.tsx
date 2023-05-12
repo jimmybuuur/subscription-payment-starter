@@ -8,6 +8,7 @@ import { ResetChat } from "./ResetChat";
 
 
 const {user} = useUser();
+
 interface Props {
   messages: Message[];
   loading: boolean;
