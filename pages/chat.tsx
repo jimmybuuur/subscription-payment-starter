@@ -123,9 +123,11 @@ export default function Home() {
     ]);
   };
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+  useEffect(() => {  
+    if (messagesEndRef.current) {  
+      scrollToBottom();  
+    }  
+  }, [messages]); 
 
   useEffect(() => {
     setMessages([
