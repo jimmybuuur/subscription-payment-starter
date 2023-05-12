@@ -1,5 +1,4 @@
-import { useUser } from '@/utils/useUser'; 
-import { Message } from "@/types";
+import { Message, UserDetails } from "@/types";
 import { IconArrowUp } from "@tabler/icons-react";
 import { FC, KeyboardEvent, useEffect, useRef, useState } from "react";
 
@@ -9,14 +8,13 @@ import type { Database } from 'types_db';
 
 
 export const supabase = createBrowserSupabaseClient<Database>();  
-const { user } = useUser();  
 
 interface Props {
   onSend: (message: Message) => void;
-  user: typeof user;
+  userDetails: UserDetails;
 }
 
-export const ChatInput: FC<Props> = ({ onSend, user }) => {
+export const ChatInput: FC<Props> = ({ onSend, userDetails }) => {
   const [content, setContent] = useState<string>();
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -37,13 +35,16 @@ export const ChatInput: FC<Props> = ({ onSend, user }) => {
       return;
     }
     // send data to backend
-    const { data: messages, error } = await supabase.from('messages').insert([{ message: content, user_id: user?.id ?? '', role: "user" }]);
+    const { data: messages, error } = await supabase.from('messages').insert([{ message: content, user_id: userDetails?.id ?? '', role: "user" }]);
     if (error) {
       console.log(error);
       return;
     }
+    else {
+      console.log(messages);
+    }
 
-    onSend({ role: "user", message: content, user_id: user?.id ?? '' });
+    onSend({ role: "user", message: content, user_id: userDetails?.id ?? '' });
     setContent("");
   };
 
