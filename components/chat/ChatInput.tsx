@@ -12,9 +12,10 @@ const { user } = useUser();
 
 interface Props {
   onSend: (message: Message) => void;
+  user: typeof user;
 }
 
-export const ChatInput: FC<Props> = ({ onSend }) => {
+export const ChatInput: FC<Props> = ({ onSend, user }) => {
   const [content, setContent] = useState<string>();
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);

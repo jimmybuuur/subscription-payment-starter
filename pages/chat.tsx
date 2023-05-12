@@ -162,6 +162,7 @@ export default function Home() {
               loading={loading}
               onSend={handleSend}
               onReset={handleReset}
+              user={user}
             />
             <div ref={messagesEndRef} />
           </div>

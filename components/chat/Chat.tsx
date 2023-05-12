@@ -1,3 +1,4 @@
+import { useUser, UserContext } from '@/utils/useUser'; 
 import { Message } from "@/types";
 import { FC } from "react";
 import { ChatInput } from "./ChatInput";
@@ -5,14 +6,17 @@ import { ChatLoader } from "./ChatLoader";
 import { ChatMessage } from "./ChatMessage";
 import { ResetChat } from "./ResetChat";
 
+
+const {user} = useUser();
 interface Props {
   messages: Message[];
   loading: boolean;
   onSend: (message: Message) => void;
   onReset: () => void;
+  user: typeof user;
 }
 
-export const Chat: FC<Props> = ({ messages, loading, onSend, onReset }) => {
+export const Chat: FC<Props> = ({ messages, loading, onSend, onReset, user }) => {
   return (
     <>
       <div className="flex flex-row justify-between items-center mb-4 sm:mb-8">
@@ -36,7 +40,7 @@ export const Chat: FC<Props> = ({ messages, loading, onSend, onReset }) => {
         )}
 
         <div className="mt-4 sm:mt-8 bottom-[56px] left-0 w-full">
-          <ChatInput onSend={onSend} />
+          <ChatInput onSend={onSend} user={user} />
         </div>
       </div>
     </>
