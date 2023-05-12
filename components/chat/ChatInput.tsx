@@ -35,7 +35,7 @@ export const ChatInput: FC<Props> = ({ onSend, userDetails }) => {
       return;
     }
     // send data to backend
-    const { data: messages, error } = await supabase.from('messages').insert([{ message: content, user_id: userDetails?.id ?? '', role: "user" }]);
+    const { data: messages, error } = await supabase.from('message').insert([{ message: content, user_id: userDetails?.id ?? '', role: "user" }]);
     if (error) {
       console.log(error);
       return;
