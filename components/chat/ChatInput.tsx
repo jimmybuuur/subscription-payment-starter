@@ -68,7 +68,7 @@ export const ChatInput: FC<Props> = ({ onSend, userDetails }) => {
       <textarea
         ref={textareaRef}
         className="min-h-[44px] rounded-lg pl-4 pr-12 py-2 w-full focus:outline-none focus:ring-1 focus:ring-neutral-300 border-2 border-neutral-200"
-        style={{ resize: "none" }}
+        style={{ resize: "none", color: "black" }}
         placeholder="Type a message..."
         value={content}
         rows={1}

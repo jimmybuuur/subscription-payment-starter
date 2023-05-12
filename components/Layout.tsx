@@ -20,7 +20,7 @@ export default function Layout({ children, meta: pageMeta }: Props) {
     ...pageMeta
   };
 
-  console.log(router.asPath)
+  // console.log(router.asPath)
 
   return (
     <>
