@@ -6,8 +6,8 @@ import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import type { Database } from 'types_db';
 
 import { Chat } from "@/components/chat/Chat";
-import  Footer from "@/components/ui/Footer";
-import  Navbar  from "@/components/ui/Navbar";
+// import  Footer from "@/components/ui/Footer";
+// import  Navbar  from "@/components/ui/Navbar";
 import { Message } from "@/types";
 import Head from "next/head";
 

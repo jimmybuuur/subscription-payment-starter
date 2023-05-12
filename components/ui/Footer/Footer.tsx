@@ -17,7 +17,7 @@ export default function Footer() {
             <span className="rounded-full border border-zinc-700 mr-2">
               <Logo />
             </span>
-            <span>ACME</span>
+            <span>Abogadito</span>
           </Link>
         </div>
         <div className="col-span-1 lg:col-span-2">
