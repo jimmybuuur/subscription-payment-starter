@@ -31,6 +31,7 @@
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.21",
     "prettier": "^2.8.4",
+    "supabase": "^1.57.7",
     "typescript": "^4.9.5"
   },
   "prettier": {
