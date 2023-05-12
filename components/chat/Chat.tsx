@@ -10,7 +10,7 @@ interface Props {
   loading: boolean;
   onSend: (message: Message) => void;
   onReset: () => void;
-  userDetails: UserDetails;
+  userDetails: UserDetails | null;
 }
 
 export const Chat: FC<Props> = ({ messages, loading, onSend, onReset, userDetails }) => {

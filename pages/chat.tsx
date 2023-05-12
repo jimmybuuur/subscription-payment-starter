@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from 'next/router';  
 import { useUser } from '@/utils/useUser';  
-
+// import { UserDetails } from "@/types";
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';  
 import type { Database } from 'types_db';
 
@@ -14,12 +14,12 @@ import Head from "next/head";
 // import for ReadableStream
 import { ReadableStream } from "web-streams-polyfill/ponyfill";
 
-
+// const { userDetails } = useUser();
 export const supabase = createBrowserSupabaseClient<Database>(); 
 
 export default function Home() {
   const router = useRouter();  
-  const { user, isLoading } = useUser();  
+  const { user, isLoading, userDetails } = useUser();  
   
   useEffect(() => {  
     if (!user && !isLoading) {  
@@ -165,7 +165,7 @@ export default function Home() {
               loading={loading}
               onSend={handleSend}
               onReset={handleReset}
-              user={user}
+              userDetails={userDetails}
             />
             <div ref={messagesEndRef} />
           </div>
