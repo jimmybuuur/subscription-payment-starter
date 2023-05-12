@@ -67,13 +67,7 @@ function Chat() {
       console.log('Error creating message:', error.message);  
     } else {  
         if (message) {  
-            const formattedMessages = message.map((message) => ({  
-                id: message.id,  
-                message: message.message,  
-                user_id: message.user_id,  
-                created_at: message.created_at,  
-                })); 
-            setMessage([message[0], ...formattedMessages]);
+            setMessage([message[0], ...message]);
             setNewMessage(message[0]);
         }  
     }  
