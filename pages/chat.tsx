@@ -70,7 +70,7 @@ export default function Home() {
       start(controller) {
         controller.enqueue(
           new TextEncoder().encode(
-            `I'm a dummy response, you can replace me with a real response from your backend.`
+            `I'm a dummy response, you can replace me with a real response from your backend. I'm a dummy response, you can replace me with a real response from your backend. I'm a dummy response, you can replace me with a real response from your backend. I'm a dummy response, you can replace me with a real response from your backend. I'm a dummy response, you can replace me with a real response from your backend.`
           )
         );
         controller.close();
