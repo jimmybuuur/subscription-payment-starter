@@ -47,5 +47,10 @@
     "singleQuote": true,
     "tabWidth": 2,
     "trailingComma": "none"
+  },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
   }
 }
