@@ -1,4 +1,4 @@
-import { useUser, UserContext } from '@/utils/useUser'; 
+import { useUser } from '@/utils/useUser'; 
 import { Message } from "@/types";
 import { FC } from "react";
 import { ChatInput } from "./ChatInput";

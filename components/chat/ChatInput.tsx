@@ -1,3 +1,4 @@
+import { useUser } from '@/utils/useUser'; 
 import { Message } from "@/types";
 import { IconArrowUp } from "@tabler/icons-react";
 import { FC, KeyboardEvent, useEffect, useRef, useState } from "react";
@@ -5,7 +6,7 @@ import { FC, KeyboardEvent, useEffect, useRef, useState } from "react";
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';  
 import type { Database } from 'types_db';  
 
-import { useUser } from '@/utils/useUser'; 
+
 
 export const supabase = createBrowserSupabaseClient<Database>();  
 const { user } = useUser();  
