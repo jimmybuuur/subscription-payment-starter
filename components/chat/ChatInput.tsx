@@ -11,7 +11,7 @@ export const supabase = createBrowserSupabaseClient<Database>();
 
 interface Props {
   onSend: (message: Message) => void;
-  userDetails: UserDetails;
+  userDetails: UserDetails | null;
 }
 
 export const ChatInput: FC<Props> = ({ onSend, userDetails }) => {
