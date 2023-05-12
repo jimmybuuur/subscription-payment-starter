@@ -23,7 +23,7 @@ const Navbar = () => {
             <Link href="/" className={s.logo} aria-label="Logo">
               <Logo />
             </Link>
-            <nav className="space-x-2 ml-6 hidden lg:block">
+            <nav className="space-x-2 ml-6 block md:hidden lg:block">  
               <Link href="/" className={s.link}>
                 Pricing
               </Link>
