@@ -11,6 +11,9 @@ import { Chat } from "@/components/chat/Chat";
 import { Message } from "@/types";
 import Head from "next/head";
 
+const chatApiKey = process.env.AZURE_CHAT_API_KEY;  
+const chatEndpointUrl = process.env.AZURE_CHAT_ENDPOINT_URL;  
+
 // import for ReadableStream
 import { ReadableStream } from "web-streams-polyfill/ponyfill";
 
@@ -65,19 +68,55 @@ export default function Home() {
     //   return;
     // }
 
-    // we instead use a dummy response, make data a ReadableStream, and use a TextDecoder to decode the stream
-    const data = new ReadableStream({
-      start(controller) {
-        controller.enqueue(
-          new TextEncoder().encode(
-            `I'm a dummy response, you can replace me with a real response from your backend. I'm a dummy response, you can replace me with a real response from your backend. I'm a dummy response, you can replace me with a real response from your backend. I'm a dummy response, you can replace me with a real response from your backend. I'm a dummy response, you can replace me with a real response from your backend.`
-          )
-        );
-        controller.close();
+    
+
+    const data = {  
+        data: {  
+            inputs: {  
+                query: message,  
+                user_id: userDetails?.id,  
+                user_name: `${userDetails?.first_name} ${userDetails?.last_name}`  
+            }  
+        }  
+    };  
+
+    if (!chatApiKey) {
+      throw new Error("A key should be provided to invoke the endpoint");
+    }
+
+    // The azureml-model-deployment header will force the request to go to a specific deployment.
+    // Remove this header to have the request observe the endpoint traffic rules
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + chatApiKey,
+        'azureml-model-deployment': 'blue'
       }
+    };
+    
+    const https = require('https');
+    const req = https.request(chatEndpointUrl, options, (res) => {
+      let body = '';
+      res.on('data', (chunk) => {
+        body += chunk;
+      });
+      res.on('end', () => {
+        console.log("Body: " + body);
+        if (res.statusCode !== 200) {
+          throw new Error(body);
+        }
+      });
     });
 
+    req.on("error", (error) => {
+      console.error(error + " " + error.stack);
+      throw new Error(error);
+    });
 
+    req.write(JSON.stringify(data));
+    req.end();
+    
     setLoading(false);
 
     const reader = data.getReader();
