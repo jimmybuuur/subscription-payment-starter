@@ -9,8 +9,6 @@ import { Chat } from "@/components/chat/Chat";
 import { Message } from "@/types";
 import Head from "next/head";
 
-const chatApiKey = process.env.AZURE_CHAT_API_KEY;  
-const chatEndpointUrl = process.env.AZURE_CHAT_ENDPOINT_URL;  
 
 // import for ReadableStream
 // import { ReadableStream } from "web-streams-polyfill/ponyfill";
@@ -50,7 +48,7 @@ export default function Home() {
       user_name: `${userDetails?.first_name} ${userDetails?.last_name}`  
   }
 
-    if (!chatApiKey) {
+    if (!process.env.AZURE_CHAT_API_KEY) {
       throw new Error("A key should be provided to invoke the endpoint");
     }
 
@@ -60,13 +58,13 @@ export default function Home() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + chatApiKey,
+        'Authorization': 'Bearer ' + process.env.AZURE_CHAT_API_KEY,
         'azureml-model-deployment': 'blue'
       },
       body: JSON.stringify(body)
     };
 
-    const response = await fetch(chatEndpointUrl ?? '', options);
+    const response = await fetch(process.env.AZURE_CHAT_ENDPOINT_URL ?? '', options);
 
     if (!response.ok) {
       setLoading(false);
