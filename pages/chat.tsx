@@ -4,6 +4,8 @@ import { useUser } from '@/utils/useUser';
 // import { UserDetails } from "@/types";
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';  
 import type { Database } from 'types_db';
+import * as http from 'http';  
+
 
 import { Chat } from "@/components/chat/Chat";
 // import  Footer from "@/components/ui/Footer";
@@ -44,6 +46,7 @@ export default function Home() {
 
     setMessages(updatedMessages);
     setLoading(true);
+    
 
     // the following code is commented out because it requires a backend
 
@@ -70,15 +73,11 @@ export default function Home() {
 
     
 
-    const data = {  
-        data: {  
-            inputs: {  
-                query: message,  
-                user_id: userDetails?.id,  
-                user_name: `${userDetails?.first_name} ${userDetails?.last_name}`  
-            }  
-        }  
-    };  
+    const body = {  
+      query: message,  
+      user_id: userDetails?.id,  
+      user_name: `${userDetails?.first_name} ${userDetails?.last_name}`  
+  }
 
     if (!chatApiKey) {
       throw new Error("A key should be provided to invoke the endpoint");
@@ -92,32 +91,48 @@ export default function Home() {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + chatApiKey,
         'azureml-model-deployment': 'blue'
-      }
+      },
+      body: JSON.stringify(body)
     };
-    
-    const https = require('https');
-    const req = https.request(chatEndpointUrl, options, (res) => {
-      let body = '';
-      res.on('data', (chunk) => {
-        body += chunk;
-      });
-      res.on('end', () => {
-        console.log("Body: " + body);
-        if (res.statusCode !== 200) {
-          throw new Error(body);
-        }
-      });
-    });
 
-    req.on("error", (error) => {
-      console.error(error + " " + error.stack);
-      throw new Error(error);
-    });
+    const response = await fetch(chatEndpointUrl ?? '', options);
 
-    req.write(JSON.stringify(data));
-    req.end();
+    if (!response.ok) {
+      setLoading(false);
+      throw new Error(response.statusText);
+    }
+
+    const data = response.body;
+
+    if (!data) {
+      return;
+    }
+
+
     
-    setLoading(false);
+    // const https = require('https');
+    // const http = require('http');  
+    // const req = https.request(chatEndpointUrl, options, (res: http.IncomingMessage) => {
+    //   let body = '';
+    //   res.on('data', (chunk) => {
+    //     body += chunk;
+    //   });
+    //   res.on('end', () => {
+    //     console.log("Body: " + body);
+    //     if (res.statusCode !== 200) {
+    //       throw new Error(body);
+    //     }
+    //   });
+    // });
+
+    // req.on("error", (error: Error) => {
+    //   console.error(error + " " + error.stack);
+    // });
+
+    // req.write(JSON.stringify(data));
+    // req.end();
+    
+    // setLoading(false);
 
     const reader = data.getReader();
     const decoder = new TextDecoder();
