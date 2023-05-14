@@ -9,8 +9,7 @@ export async function searchAzureChat(message: Message, userDetails: UserDetails
     user_id: userDetails?.id,    
     user_name: `${userDetails?.first_name} ${userDetails?.last_name}`    
   }  
-  console.log(`${process.env.NEXT_PUBLIC_AZURE_CHAT_ENDPOINT_URL}`)
-  console.log(process.env.NEXT_PUBLIC_AZURE_CHAT_API_KEY)
+  
   if (!process.env.NEXT_PUBLIC_AZURE_CHAT_API_KEY) {  
     throw new Error("A key should be provided to invoke the Azure endpoint");  
   }  
@@ -27,7 +26,7 @@ export async function searchAzureChat(message: Message, userDetails: UserDetails
     body: JSON.stringify(body)  
   };  
   
-  const response = await fetch(process.env.AZURE_CHAT_ENDPOINT_URL ?? '', options);  
+  const response = await fetch(process.env.NEXT_PUBLIC_AZURE_CHAT_ENDPOINT_URL ?? '', options);  
   
   if (!response.ok) {  
     throw new Error(response.statusText);  
