@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from 'next/router';  
 import { useUser } from '@/utils/useUser';  
-// import { UserDetails } from "@/types";
+import {searchAzureChat} from '@/utils/useAzure';
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';  
 import type { Database } from 'types_db';
 
@@ -41,41 +41,12 @@ export default function Home() {
     setMessages(updatedMessages);
     setLoading(true);
     
-
-    const body = {  
-      query: message,  
-      user_id: userDetails?.id,  
-      user_name: `${userDetails?.first_name} ${userDetails?.last_name}`  
-  }
-
-    if (!process.env.AZURE_CHAT_API_KEY) {
-      throw new Error("A key should be provided to invoke the endpoint");
-    }
-
-    // The azureml-model-deployment header will force the request to go to a specific deployment.
-    // Remove this header to have the request observe the endpoint traffic rules
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + process.env.AZURE_CHAT_API_KEY,
-        'azureml-model-deployment': 'blue'
-      },
-      body: JSON.stringify(body)
-    };
-
-    const response = await fetch(process.env.AZURE_CHAT_ENDPOINT_URL ?? '', options);
-
-    if (!response.ok) {
-      setLoading(false);
-      throw new Error(response.statusText);
-    }
-
-    const data = response.body;
-
+    const data = await searchAzureChat(message, userDetails);
     if (!data) {
-      return;
-    }
+      setLoading(false);
+      return;  
+    } 
+
 
     const reader = data.getReader();
     const decoder = new TextDecoder();
