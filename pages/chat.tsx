@@ -4,12 +4,8 @@ import { useUser } from '@/utils/useUser';
 // import { UserDetails } from "@/types";
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';  
 import type { Database } from 'types_db';
-import * as http from 'http';  
-
 
 import { Chat } from "@/components/chat/Chat";
-// import  Footer from "@/components/ui/Footer";
-// import  Navbar  from "@/components/ui/Navbar";
 import { Message } from "@/types";
 import Head from "next/head";
 
@@ -17,7 +13,7 @@ const chatApiKey = process.env.AZURE_CHAT_API_KEY;
 const chatEndpointUrl = process.env.AZURE_CHAT_ENDPOINT_URL;  
 
 // import for ReadableStream
-import { ReadableStream } from "web-streams-polyfill/ponyfill";
+// import { ReadableStream } from "web-streams-polyfill/ponyfill";
 
 // const { userDetails } = useUser();
 export const supabase = createBrowserSupabaseClient<Database>(); 
@@ -46,31 +42,6 @@ export default function Home() {
 
     setMessages(updatedMessages);
     setLoading(true);
-    
-
-    // the following code is commented out because it requires a backend
-
-    // const response = await fetch("/api/chat", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify({
-    //     messages: updatedMessages
-    //   })
-    // });
-
-    // if (!response.ok) {
-    //   setLoading(false);
-    //   throw new Error(response.statusText);
-    // }
-
-    // const data = response.body;
-
-    // if (!data) {
-    //   return;
-    // }
-
     
 
     const body = {  
@@ -107,32 +78,6 @@ export default function Home() {
     if (!data) {
       return;
     }
-
-
-    
-    // const https = require('https');
-    // const http = require('http');  
-    // const req = https.request(chatEndpointUrl, options, (res: http.IncomingMessage) => {
-    //   let body = '';
-    //   res.on('data', (chunk) => {
-    //     body += chunk;
-    //   });
-    //   res.on('end', () => {
-    //     console.log("Body: " + body);
-    //     if (res.statusCode !== 200) {
-    //       throw new Error(body);
-    //     }
-    //   });
-    // });
-
-    // req.on("error", (error: Error) => {
-    //   console.error(error + " " + error.stack);
-    // });
-
-    // req.write(JSON.stringify(data));
-    // req.end();
-    
-    // setLoading(false);
 
     const reader = data.getReader();
     const decoder = new TextDecoder();
