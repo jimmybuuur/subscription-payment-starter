@@ -24,10 +24,11 @@ export async function searchAzureChat(message: Message, userDetails: UserDetails
       'Authorization': `Bearer ${process.env.NEXT_PUBLIC_AZURE_CHAT_API_KEY}`,  
       'azureml-model-deployment': 'blue',
       'Ocp-Apim-Subscription-Key': process.env.NEXT_PUBLIC_AZURE_API_SUBSCRIPTION_KEY ?? '',
-      'Accept': '*/*',
-      'Connection': 'keep-alive'
+      'Accept': '*/*'
     }, 
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
+    keepalive: true,
+    mode: 'cors',
   };  
 
   
