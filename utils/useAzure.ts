@@ -14,6 +14,7 @@ export async function searchAzureChat(message: Message, userDetails: UserDetails
     throw new Error("A key should be provided to invoke the Azure endpoint");  
   }  
   
+
   // The azureml-model-deployment header will force the request to go to a specific deployment.  
   // Remove this header to have the request observe the endpoint traffic rules  
   const options = {  
@@ -21,10 +22,13 @@ export async function searchAzureChat(message: Message, userDetails: UserDetails
     headers: {  
       'Content-Type': 'application/json',  
       'Authorization': `Bearer ${process.env.NEXT_PUBLIC_AZURE_CHAT_API_KEY}`,  
-      'azureml-model-deployment': 'blue'  
+      'azureml-model-deployment': 'blue',
+      'Ocp-Apim-Subscription-Key': process.env.NEXT_PUBLIC_AZURE_API_SUBSCRIPTION_KEY ?? '',
+      'Accept': '*/*'
     },  
-    body: JSON.stringify(body)  
+    body: JSON.stringify(body)
   };  
+
   
   const response = await fetch(process.env.NEXT_PUBLIC_AZURE_CHAT_ENDPOINT_URL ?? '', options);  
   
