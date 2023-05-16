@@ -43,9 +43,9 @@ export default function Home() {
     
     const data = await searchAzureChat(message, userDetails);
     if (!data) {
-      setLoading(false);
       return;  
     } 
+    setLoading(false);
 
 
     const reader = data.getReader();
