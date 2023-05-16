@@ -5,7 +5,7 @@ import { UserDetails } from "@/types";
 export async function searchAzureChat(message: Message, userDetails: UserDetails | null ) {  
 
   const body = {    
-    query: message,    
+    query: message.message,    
     user_id: userDetails?.id,    
     user_name: `${userDetails?.first_name} ${userDetails?.last_name}`    
   }  
