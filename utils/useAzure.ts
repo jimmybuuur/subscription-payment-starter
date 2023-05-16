@@ -4,10 +4,14 @@ import { UserDetails } from "@/types";
   
 export async function searchAzureChat(message: Message, userDetails: UserDetails | null ) {  
 
-  const body = {    
-    query: message.message,    
-    user_id: userDetails?.id,    
-    user_name: `${userDetails?.first_name} ${userDetails?.last_name}`    
+  const body = {
+    data: {
+      inputs: {
+        query: message.message,    
+        user_id: userDetails?.id,    
+        user_name: `${userDetails?.first_name} ${userDetails?.last_name}`
+      }
+    }  
   }  
   
   if (!process.env.NEXT_PUBLIC_AZURE_CHAT_API_KEY) {  
