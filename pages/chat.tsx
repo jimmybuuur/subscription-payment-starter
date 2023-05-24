@@ -60,6 +60,8 @@ export default function Home() {
       if (error) {
         console.log(error);
       }
+    }
+  };
 
   //   const reader = data.getReader();
   //   const decoder = new TextDecoder();
@@ -103,7 +105,7 @@ export default function Home() {
   //   const { error } = await supabase.from('message').insert([{ message: chunkValues.join(''), user_id: userDetails?.id ?? '', role: "assistant", session_id: accessToken ?? ''}]);
   //   if (error) {
   //     console.log(error);
-  //   }
+
   // };
 
   const handleReset = () => {
