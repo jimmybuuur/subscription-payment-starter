@@ -41,7 +41,8 @@ export default function Home() {
     setMessages(updatedMessages);
     setLoading(true);
     
-    const data = await searchAzureChat(message, userDetails, accessToken);
+    const data= await searchAzureChat(message, userDetails, accessToken);
+    console.log("Data: ", data);
     if (!data) {
       setLoading(false);
       return;  
@@ -59,6 +60,7 @@ export default function Home() {
       const { value, done: doneReading } = await reader.read();
       done = doneReading;
       const chunkValue = decoder.decode(value);
+
 
       if (isFirst) {
         isFirst = false;
@@ -84,6 +86,7 @@ export default function Home() {
       // append chunkValue's in a temp variable
       // when done, save message in db
       chunkValues.push(chunkValue);
+      console.log(chunkValue);
     }
     // when done, save message in db
     const { error } = await supabase.from('message').insert([{ message: chunkValues.join(''), user_id: userDetails?.id ?? '', role: "assistant", session_id: accessToken ?? ''}]);

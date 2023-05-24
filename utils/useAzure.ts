@@ -39,6 +39,13 @@ export async function searchAzureChat(message: Message, userDetails: UserDetails
     throw new Error(response.statusText);  
   }  
   
-  const data = response.body;   
-  return data;  
+  // const data = response.body;   
+  // response is a json object with a data property that contains the response from the model
+  const data = await response.json();
+  // data has shape: { data: { outputs: { response: "string", extracts: "string" } } }
+  // let res: string = data.data.outputs.response;
+  // let extracts: string = data.data.outputs.extracts;
+
+  // return { res, extracts };
+  return data;
 }  
