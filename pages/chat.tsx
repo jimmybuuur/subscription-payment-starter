@@ -48,7 +48,7 @@ export default function Home() {
       return;  
     } 
     setLoading(false);
-
+    setMessages((messages) => [...messages, data]);
     // when done, save message in db
     const { error } = await supabase.from('message').insert([{ message: data.outputs.response, user_id: userDetails?.id ?? '', role: "assistant", session_id: accessToken ?? ''}]);
     if (error) {
