@@ -9,7 +9,7 @@ export async function searchAzureChat(message: Message, userDetails: UserDetails
       inputs: {
         query: message.message,    
         user_id: userDetails?.id,    
-        user_name: `${userDetails?.first_name} ${userDetails?.last_name}`
+        user_name: `${userDetails?.full_name}`
       }
     }  
   }  

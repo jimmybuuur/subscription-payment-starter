@@ -49,51 +49,62 @@ export default function Home() {
     } 
     setLoading(false);
 
-
-    const reader = data.getReader();
-    const decoder = new TextDecoder();
-    let done = false;
-    let isFirst = true;
-
-    let chunkValues = [];
-    while (!done) {
-      const { value, done: doneReading } = await reader.read();
-      done = doneReading;
-      const chunkValue = decoder.decode(value);
-
-
-      if (isFirst) {
-        isFirst = false;
-        setMessages((messages) => [
-          ...messages,
-          {
-            role: "assistant",
-            message: chunkValue,
-            user_id: userDetails?.id ?? '',
-            session_id: accessToken ?? ''
-          }
-        ]);
-      } else {
-        setMessages((messages) => {
-          const lastMessage = messages[messages.length - 1];
-          const updatedMessage = {
-            ...lastMessage,
-            content: lastMessage.message + chunkValue
-          };
-          return [...messages.slice(0, -1), updatedMessage];
-        });
-      }
-      // append chunkValue's in a temp variable
-      // when done, save message in db
-      chunkValues.push(chunkValue);
-      console.log(chunkValue);
-    }
     // when done, save message in db
-    const { error } = await supabase.from('message').insert([{ message: chunkValues.join(''), user_id: userDetails?.id ?? '', role: "assistant", session_id: accessToken ?? ''}]);
+    const { error } = await supabase.from('message').insert([{ message: data.outputs.response, user_id: userDetails?.id ?? '', role: "assistant", session_id: accessToken ?? ''}]);
     if (error) {
       console.log(error);
     }
-  };
+    // also save extracts if any
+    if (data.outputs.extracts) {
+      const { error } = await supabase.from('extract').insert([{ extracts: data.outputs.extracts, user_id: userDetails?.id ?? '', session_id: accessToken ?? ''}]);
+      if (error) {
+        console.log(error);
+      }
+
+  //   const reader = data.getReader();
+  //   const decoder = new TextDecoder();
+  //   let done = false;
+  //   let isFirst = true;
+
+  //   let chunkValues = [];
+  //   while (!done) {
+  //     const { value, done: doneReading } = await reader.read();
+  //     done = doneReading;
+  //     const chunkValue = decoder.decode(value);
+
+
+  //     if (isFirst) {
+  //       isFirst = false;
+  //       setMessages((messages) => [
+  //         ...messages,
+  //         {
+  //           role: "assistant",
+  //           message: chunkValue,
+  //           user_id: userDetails?.id ?? '',
+  //           session_id: accessToken ?? ''
+  //         }
+  //       ]);
+  //     } else {
+  //       setMessages((messages) => {
+  //         const lastMessage = messages[messages.length - 1];
+  //         const updatedMessage = {
+  //           ...lastMessage,
+  //           content: lastMessage.message + chunkValue
+  //         };
+  //         return [...messages.slice(0, -1), updatedMessage];
+  //       });
+  //     }
+  //     // append chunkValue's in a temp variable
+  //     // when done, save message in db
+  //     chunkValues.push(chunkValue);
+  //     console.log(chunkValue);
+  //   }
+  //   // when done, save message in db
+  //   const { error } = await supabase.from('message').insert([{ message: chunkValues.join(''), user_id: userDetails?.id ?? '', role: "assistant", session_id: accessToken ?? ''}]);
+  //   if (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const handleReset = () => {
     setMessages([
