@@ -12,9 +12,10 @@ export const supabase = createBrowserSupabaseClient<Database>();
 interface Props {
   onSend: (message: Message) => void;
   userDetails: UserDetails | null;
+  sessionId: string | null;
 }
 
-export const ChatInput: FC<Props> = ({ onSend, userDetails }) => {
+export const ChatInput: FC<Props> = ({ onSend, userDetails, sessionId }) => {
   const [content, setContent] = useState<string>();
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -35,7 +36,7 @@ export const ChatInput: FC<Props> = ({ onSend, userDetails }) => {
       return;
     }
     // send data to backend
-    const { data: messages, error } = await supabase.from('message').insert([{ message: content, user_id: userDetails?.id ?? '', role: "user" }]);
+    const { data: messages, error } = await supabase.from('message').insert([{ message: content, user_id: userDetails?.id ?? '', role: "user", session_id: sessionId ?? ''}]);
     if (error) {
       console.log(error);
       return;
@@ -44,7 +45,7 @@ export const ChatInput: FC<Props> = ({ onSend, userDetails }) => {
       console.log(messages);
     }
 
-    onSend({ role: "user", message: content, user_id: userDetails?.id ?? '' });
+    onSend({ role: "user", message: content, user_id: userDetails?.id ?? '', session_id: sessionId ?? ''});
     setContent("");
   };
 

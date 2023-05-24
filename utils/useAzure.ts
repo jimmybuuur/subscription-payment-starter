@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Message } from "@/types";  
 import { UserDetails } from "@/types";
   
-export async function searchAzureChat(message: Message, userDetails: UserDetails | null ) {  
+export async function searchAzureChat(message: Message, userDetails: UserDetails | null, access_token: string | null ) {  
 
   const body = {
     data: {

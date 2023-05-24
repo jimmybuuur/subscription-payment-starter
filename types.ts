@@ -77,4 +77,5 @@ export interface Message {
   message: string;
   user_id: string;
   role: string;
+  session_id: string;
 }

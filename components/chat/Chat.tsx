@@ -11,9 +11,10 @@ interface Props {
   onSend: (message: Message) => void;
   onReset: () => void;
   userDetails: UserDetails | null;
+  sessionId: string | null;
 }
 
-export const Chat: FC<Props> = ({ messages, loading, onSend, onReset, userDetails }) => {
+export const Chat: FC<Props> = ({ messages, loading, onSend, onReset, userDetails, sessionId }) => {
   return (
     <>
       <div className="flex flex-row justify-between items-center mb-4 sm:mb-8">
@@ -37,7 +38,7 @@ export const Chat: FC<Props> = ({ messages, loading, onSend, onReset, userDetail
         )}
 
         <div className="mt-4 sm:mt-8 bottom-[56px] left-0 w-full">
-          <ChatInput onSend={onSend} userDetails={ userDetails } />
+          <ChatInput onSend={onSend} userDetails={ userDetails } sessionId={sessionId}/>
         </div>
       </div>
     </>

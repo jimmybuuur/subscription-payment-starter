@@ -13,12 +13,12 @@ import Head from "next/head";
 // import for ReadableStream
 // import { ReadableStream } from "web-streams-polyfill/ponyfill";
 
-// const { userDetails } = useUser();
+const { user, isLoading, userDetails, accessToken } = useUser(); 
 export const supabase = createBrowserSupabaseClient<Database>(); 
 
 export default function Home() {
   const router = useRouter();  
-  const { user, isLoading, userDetails } = useUser();  
+   
   
   useEffect(() => {  
     if (!user && !isLoading) {  
@@ -34,15 +34,16 @@ export default function Home() {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-
+ 
   const handleSend = async (message: Message) => {
     const updatedMessages = [...messages, message];
 
     setMessages(updatedMessages);
     setLoading(true);
     
-    const data = await searchAzureChat(message, userDetails);
+    const data = await searchAzureChat(message, userDetails, accessToken);
     if (!data) {
+      setLoading(false);
       return;  
     } 
     setLoading(false);
@@ -53,6 +54,7 @@ export default function Home() {
     let done = false;
     let isFirst = true;
 
+    let chunkValues = [];
     while (!done) {
       const { value, done: doneReading } = await reader.read();
       done = doneReading;
@@ -65,7 +67,8 @@ export default function Home() {
           {
             role: "assistant",
             message: chunkValue,
-            user_id: "-1"
+            user_id: userDetails?.id ?? '',
+            session_id: accessToken ?? ''
           }
         ]);
       } else {
@@ -78,6 +81,14 @@ export default function Home() {
           return [...messages.slice(0, -1), updatedMessage];
         });
       }
+      // append chunkValue's in a temp variable
+      // when done, save message in db
+      chunkValues.push(chunkValue);
+    }
+    // when done, save message in db
+    const { error } = await supabase.from('message').insert([{ message: chunkValues.join(''), user_id: userDetails?.id ?? '', role: "assistant", session_id: accessToken ?? ''}]);
+    if (error) {
+      console.log(error);
     }
   };
 
@@ -86,7 +97,8 @@ export default function Home() {
       {
         role: "assistant",
         message: `Hi there! I'm Chatbot UI, an AI assistant. I can help you with things like answering questions, providing information, and helping with tasks. How can I help you?`,
-        user_id: "-1"
+        user_id: userDetails?.id ?? '',
+        session_id: accessToken ?? ''
       }
     ]);
   };
@@ -102,7 +114,8 @@ export default function Home() {
       {
         role: "assistant",
         message: `Hi there! I'm Chatbot UI, an AI assistant. I can help you with things like answering questions, providing information, and helping with tasks. How can I help you?`,
-        user_id: "-1"
+        user_id: userDetails?.id ?? '',
+        session_id: accessToken ?? ''
       }
     ]);
   }, []);
@@ -136,6 +149,7 @@ export default function Home() {
               onSend={handleSend}
               onReset={handleReset}
               userDetails={userDetails}
+              sessionId={accessToken}
             />
             <div ref={messagesEndRef} />
           </div>
