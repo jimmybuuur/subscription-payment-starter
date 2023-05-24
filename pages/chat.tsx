@@ -13,12 +13,12 @@ import Head from "next/head";
 // import for ReadableStream
 // import { ReadableStream } from "web-streams-polyfill/ponyfill";
 
-const { user, isLoading, userDetails, accessToken } = useUser(); 
+
 export const supabase = createBrowserSupabaseClient<Database>(); 
 
 export default function Home() {
   const router = useRouter();  
-   
+  const { user, isLoading, userDetails, accessToken } = useUser(); 
   
   useEffect(() => {  
     if (!user && !isLoading) {  
