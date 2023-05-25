@@ -49,7 +49,7 @@ export default function Home() {
     }
     setLoading(false);
     
-    const chunkValue = data.outputs.respose;
+    const chunkValue = data.outputs.response;
     console.log("Chunk Value: ", chunkValue);
     const extracts = data.outputs.extracts;
     console.log("Extracts: ", extracts);
