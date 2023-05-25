@@ -50,7 +50,10 @@ export default function Home() {
     setLoading(false);
     
     const chunkValue = data.outputs.respose;
+    console.log("Chunk Value: ", chunkValue);
     const extracts = data.outputs.extracts;
+    console.log("Extracts: ", extracts);
+
 
     setMessages((messages) => [
     ...messages,
