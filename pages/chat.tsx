@@ -49,8 +49,8 @@ export default function Home() {
     }
     setLoading(false);
     
-    const chunkValue = data.data.outputs.respose;
-    const extracts = data.data.outputs.extracts;
+    const chunkValue = data.outputs.respose;
+    const extracts = data.outputs.extracts;
 
     setMessages((messages) => [
     ...messages,
