@@ -41,22 +41,35 @@ export default function Home() {
     setMessages(updatedMessages);
     setLoading(true);
     
-    const data= await searchAzureChat(message, userDetails, accessToken);
+    const data = await searchAzureChat(message, userDetails, accessToken);
     console.log("Data: ", data);
     if (!data) {
       setLoading(false);
       return;  
-    } 
+    }
     setLoading(false);
-    setMessages((messages) => [...messages, data]);
+    
+    const chunkValue = data.data.outputs.respose;
+    const extracts = data.data.outputs.extracts;
+
+    setMessages((messages) => [
+    ...messages,
+      {
+        role: "assistant",
+        message: chunkValue,
+        user_id: userDetails?.id ?? '',
+        session_id: accessToken ?? ''
+      }
+    ]);
+    
     // when done, save message in db
-    const { error } = await supabase.from('message').insert([{ message: data.outputs.response, user_id: userDetails?.id ?? '', role: "assistant", session_id: accessToken ?? ''}]);
+    const { error } = await supabase.from('message').insert([{ message: chunkValue, user_id: userDetails?.id ?? '', role: "assistant", session_id: accessToken ?? ''}]);
     if (error) {
       console.log(error);
     }
     // also save extracts if any
     if (data.outputs.extracts) {
-      const { error } = await supabase.from('extract').insert([{ extracts: data.outputs.extracts, user_id: userDetails?.id ?? '', session_id: accessToken ?? ''}]);
+      const { error } = await supabase.from('extract').insert([{ extracts: extracts, user_id: userDetails?.id ?? '', role: "assistant", session_id: accessToken ?? ''}]);
       if (error) {
         console.log(error);
       }
