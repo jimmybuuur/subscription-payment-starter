@@ -72,7 +72,7 @@ export default function Home() {
     }
     // also save extracts if any
     if (data.outputs.extracts) {
-      const { error } = await supabase.from('extract').insert([{ extracts: extracts, user_id: userDetails?.id ?? '', role: "assistant", session_id: accessToken ?? ''}]);
+      const { error } = await supabase.from('extract').insert([{ extracts: extracts, user_id: userDetails?.id ?? '', session_id: accessToken ?? ''}]);
       if (error) {
         console.log(error);
       }
