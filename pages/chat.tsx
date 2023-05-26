@@ -4,6 +4,7 @@ import { useUser } from '@/utils/useUser';
 import {searchAzureChat} from '@/utils/useAzure';
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';  
 import type { Database } from 'types_db';
+import { ExtractsSidebar } from "@/components/sidebar/ExtractsSidebar";
 
 import { Chat } from "@/components/chat/Chat";
 import { Message } from "@/types";
@@ -19,6 +20,7 @@ export const supabase = createBrowserSupabaseClient<Database>();
 export default function Home() {
   const router = useRouter();  
   const { user, isLoading, userDetails, accessToken } = useUser(); 
+  const [extracts, setExtracts] = useState<string[]>([]);
   
   useEffect(() => {  
     if (!user && !isLoading) {  
@@ -51,8 +53,11 @@ export default function Home() {
     
     const chunkValue = data.outputs.response;
     console.log("Chunk Value: ", chunkValue);
-    const extracts = data.outputs.extracts;
+    // const extracts = data.outputs.extracts;
+    const newExtracts = data.outputs.extracts || [];
     console.log("Extracts: ", extracts);
+    setExtracts((extracts) => [...extracts, ...newExtracts]);  
+
 
 
     setMessages((messages) => [
@@ -183,6 +188,7 @@ export default function Home() {
               userDetails={userDetails}
               sessionId={accessToken}
             />
+            <ExtractsSidebar extracts={extracts} />
             <div ref={messagesEndRef} />
           </div>
         </div>
