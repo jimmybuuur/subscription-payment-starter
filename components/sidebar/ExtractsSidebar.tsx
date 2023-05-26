@@ -6,11 +6,11 @@ interface Props {
   
 export const ExtractsSidebar: React.FC<Props> = ({ extracts }) => {  
   return (  
-    <div className="w-1/4 h-screen bg-gray-100 p-4">  
+    <div className="w-full sm:w-1/4 h-screen bg-gray-100 p-4">  
       <h2 className="text-lg font-medium mb-2">Extracts</h2>  
-      <ul>  
+      <ul className="max-h-screen">  
         {extracts.map((extract, index) => (  
-          <li key={index} className="mb-2">{extract}</li>  
+          <li key={index} className="mb-2 whitespace-pre-wrap">{extract}</li>  
         ))}  
       </ul>  
     </div>  
