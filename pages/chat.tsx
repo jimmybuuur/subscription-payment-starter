@@ -53,13 +53,13 @@ export default function Home() {
     
     const chunkValue = data.outputs.response;
     console.log("Chunk Value: ", chunkValue);
-    const extracts = data.outputs.extracts;
-    // const newExtracts = data.outputs.extracts || [];
+    // const extracts = data.outputs.extracts;
+    const newExtracts = data.outputs.extracts || [];
     console.log("Extracts: ", extracts);
     // setExtracts((extracts) => [...extracts, ...newExtracts]);  
     // if extracts is not an empty string, then overwrite the extracts
-    if (extracts) {
-      setExtracts(extracts);
+    if (newExtracts) {
+      setExtracts(newExtracts);
     }
     
     setMessages((messages) => [
