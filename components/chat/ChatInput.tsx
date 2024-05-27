@@ -1,13 +1,11 @@
-import { Message, UserDetails } from "@/types";
-import { IconArrowUp } from "@tabler/icons-react";
-import { FC, KeyboardEvent, useEffect, useRef, useState } from "react";
+import { Message, UserDetails } from '@/types';
+import { IconArrowUp } from '@tabler/icons-react';
+import { FC, KeyboardEvent, useEffect, useRef, useState } from 'react';
 
-import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';  
-import type { Database } from 'types_db';  
+import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
+import type { Database } from 'types_db';
 
-
-
-export const supabase = createBrowserSupabaseClient<Database>();  
+export const supabase = createBrowserSupabaseClient<Database>();
 
 interface Props {
   onSend: (message: Message) => void;
@@ -23,35 +21,48 @@ export const ChatInput: FC<Props> = ({ onSend, userDetails, sessionId }) => {
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     if (value.length > 4000) {
-      alert("Message limit is 4000 characters");
+      alert('Message limit is 4000 characters');
       return;
     }
 
     setContent(value);
   };
 
-  const handleSend = async () => { // is async allowed here?
+  const handleSend = async () => {
+    // is async allowed here?
     if (!content) {
-      alert("Please enter a message");
+      alert('Please enter a message');
       return;
     }
     // send data to backend
-    const { data: messages, error } = await supabase.from('message').insert([{ message: content, user_id: userDetails?.id ?? '', role: "user", session_id: sessionId ?? ''}]);
+    const { data: messages, error } = await supabase
+      .from('message')
+      .insert([
+        {
+          message: content,
+          user_id: userDetails?.id ?? '',
+          role: 'user',
+          session_id: sessionId ?? ''
+        }
+      ]);
     if (error) {
       console.log(error);
       return;
-    }
-    else {
+    } else {
       console.log(messages);
     }
 
-    onSend({ role: "user", message: content, user_id: userDetails?.id ?? '', session_id: sessionId ?? ''});
-    setContent("");
+    onSend({
+      role: 'user',
+      message: content,
+      user_id: userDetails?.id ?? '',
+      session_id: sessionId ?? ''
+    });
+    setContent('');
   };
 
-
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSend();
     }
@@ -59,7 +70,7 @@ export const ChatInput: FC<Props> = ({ onSend, userDetails, sessionId }) => {
 
   useEffect(() => {
     if (textareaRef && textareaRef.current) {
-      textareaRef.current.style.height = "inherit";
+      textareaRef.current.style.height = 'inherit';
       textareaRef.current.style.height = `${textareaRef.current?.scrollHeight}px`;
     }
   }, [content]);
@@ -69,7 +80,7 @@ export const ChatInput: FC<Props> = ({ onSend, userDetails, sessionId }) => {
       <textarea
         ref={textareaRef}
         className="min-h-[44px] rounded-lg pl-4 pr-12 py-2 w-full focus:outline-none focus:ring-1 focus:ring-neutral-300 border-2 border-neutral-200"
-        style={{ resize: "none", color: "black" }}
+        style={{ resize: 'none', color: 'black' }}
         placeholder="Type a message..."
         value={content}
         rows={1}
